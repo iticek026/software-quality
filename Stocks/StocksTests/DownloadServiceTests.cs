@@ -1,6 +1,5 @@
-using Stocks.Services.Models;
-using Stocks.Services.Exceptions;
 using FakeItEasy;
+
 namespace Stocks.Services.Download;
 
 public class DownloadServiceTests

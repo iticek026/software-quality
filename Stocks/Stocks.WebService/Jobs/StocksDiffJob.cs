@@ -5,7 +5,6 @@ using Stocks.Services.Exceptions;
 using Stocks.Services.Export;
 using Stocks.Services.Files;
 using Stocks.Services.Helpers;
-using Stocks.Services.Models;
 using Stocks.Services.Models.Configuration;
 using Stocks.Services.Output;
 using Stocks.Services.Parsers;

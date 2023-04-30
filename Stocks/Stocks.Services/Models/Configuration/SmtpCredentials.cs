@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Stocks.Services.Models.Configuration
+﻿namespace Stocks.Services.Models.Configuration
 {
     /// <summary>
     /// Class <c>SmtpCredentials</c> represents the credentials for the SMTP server.

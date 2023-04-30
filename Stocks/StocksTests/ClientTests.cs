@@ -1,6 +1,5 @@
 using Stocks.Services.Exceptions;
 
-
 namespace StocksTests;
 
 public class ClientTests

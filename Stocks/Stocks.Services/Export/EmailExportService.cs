@@ -1,6 +1,6 @@
-﻿using MimeKit;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MailKit.Security;
+using MimeKit;
 using Stocks.Services.Models.Configuration;
 
 namespace Stocks.Services.Export

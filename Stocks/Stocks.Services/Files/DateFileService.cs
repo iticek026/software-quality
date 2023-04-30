@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Stocks.Services.Exceptions;
 using Stocks.Services.Helpers;
 using Stocks.Services.Models.Configuration;
 using System.Globalization;
-using Stocks.Services.Exceptions;
 
 namespace Stocks.Services.Files;
 

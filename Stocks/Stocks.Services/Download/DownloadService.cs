@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Stocks.Services.Exceptions;
+﻿using Stocks.Services.Exceptions;
 using Stocks.Services.Models.Configuration;
 
 namespace Stocks.Services.Download;

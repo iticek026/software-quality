@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Stocks.Services.Models.Configuration
+﻿namespace Stocks.Services.Models.Configuration
 {
     /// <summary>
     /// Class <c>EmailSettings</c> represents the settings for sending emails.

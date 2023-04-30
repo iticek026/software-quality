@@ -1,14 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
-using Stocks.Services.Diff;
-using Stocks.Services.Files;
-using Stocks.Services.Helpers;
+﻿using Stocks.Services.Diff;
 using Stocks.Services.Download;
 using Stocks.Services.Exceptions;
 using Stocks.Services.Export;
+using Stocks.Services.Files;
+using Stocks.Services.Helpers;
 using Stocks.Services.Models;
 using Stocks.Services.Models.Configuration;
-using Stocks.Services.Parsers;
 using Stocks.Services.Output;
+using Stocks.Services.Parsers;
 
 namespace Stocks.Console;
 

@@ -1,9 +1,6 @@
 ﻿using HtmlBuilders;
-using Microsoft.Extensions.Configuration;
-using Stocks.Services.Helpers;
 using Stocks.Services.Models;
 using Stocks.Services.Models.Configuration;
-using System.Text.Encodings.Web;
 
 namespace Stocks.Services.Output
 {
