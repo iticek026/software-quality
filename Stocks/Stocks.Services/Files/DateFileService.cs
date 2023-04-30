@@ -1,4 +1,4 @@
-﻿using Stocks.Services.Exceptions;
+using Stocks.Services.Exceptions;
 using Stocks.Services.Helpers;
 using Stocks.Services.Models.Configuration;
 using System.Globalization;
@@ -79,8 +79,7 @@ public class DateFileService : IFileService
     /// <returns>The path.</returns>
     private string GetPathByDate(DateTime date, string extension)
     {
-        return PathHelper.GetDateFilePath(date, _settings.FileNameFormat, _settings.SaveDirectory,
-            extension);
+        return PathHelper.GetDateFilePath(date, _settings.FileNameFormat, _settings.SaveDirectory, extension);
     }
 
     /// <summary>

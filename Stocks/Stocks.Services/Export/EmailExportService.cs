@@ -22,6 +22,26 @@ namespace Stocks.Services.Export
         }
 
         /// <summary>
+        /// Sends the content via email asynchronously.
+        /// </summary>
+        /// <param name="content">The content to be sent.</param>
+        public async Task Export(string content)
+        {
+            var message = CreateBaseMailMessage();
+
+            message.Body = CreateBody(content);
+
+            using var client = new SmtpClient();
+
+            await client.ConnectAsync(_settings.Smtp.Host, _settings.Smtp.Port, SecureSocketOptions.SslOnConnect);
+            await client.AuthenticateAsync(_settings.Smtp.Username, _settings.Smtp.Password);
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
+
+            return;
+        }
+
+        /// <summary>
         /// Creates the mail message with the base configuration from the settings.
         /// </summary>
         /// <returns><c>MimeMessage</c> object.</returns>
@@ -53,26 +73,6 @@ namespace Stocks.Services.Export
                 HtmlBody = content
             };
             return bodyBuilder.ToMessageBody();
-        }
-
-        /// <summary>
-        /// Sends the content via email asynchronously.
-        /// </summary>
-        /// <param name="content">The content to be sent.</param>
-        public async Task Export(string content)
-        {
-            var message = CreateBaseMailMessage();
-
-            message.Body = CreateBody(content);
-
-            using var client = new SmtpClient();
-
-            await client.ConnectAsync(_settings.Smtp.Host, _settings.Smtp.Port, SecureSocketOptions.SslOnConnect);
-            await client.AuthenticateAsync(_settings.Smtp.Username, _settings.Smtp.Password);
-            await client.SendAsync(message);
-            await client.DisconnectAsync(true);
-
-            return;
         }
     }
 }

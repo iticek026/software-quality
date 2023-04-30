@@ -1,4 +1,4 @@
-﻿using CsvHelper;
+using CsvHelper;
 using CsvHelper.Configuration;
 using Stocks.Services.Models;
 using System.Globalization;
@@ -29,9 +29,11 @@ public class CsvParseService : IParseService
             MissingFieldFound = null,
             ShouldSkipRecord = args => args.Row.Parser.Record.All(string.IsNullOrWhiteSpace)
         };
+
         using var csv = new CsvReader(reader, configuration);
         csv.Context.RegisterClassMap<StockModelMap>();
         var records = csv.GetRecordsAsync<StockModel>();
+        
         return await records.ToListAsync();
     }
 }
