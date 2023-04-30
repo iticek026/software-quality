@@ -136,7 +136,7 @@ public class HoldingsDifferenceTests
         });
     }
 
-     [Test]
+    [Test]
     public void GetDifference_StockPositionReducedAndIncreased_ReturnsCorrectPositions()
     {
         // arrange
@@ -206,7 +206,6 @@ public class HoldingsDifferenceTests
             Assert.That(result.NewPositions.FirstOrDefault()?.Company, Is.EqualTo("Facebook"));
             Assert.That(result.NewPositions.FirstOrDefault()?.Shares, Is.EqualTo(40));
             Assert.That(result.NewPositions.FirstOrDefault()?.Weight, Is.EqualTo("47%"));
-
         });
     }
 
@@ -223,6 +222,5 @@ public class HoldingsDifferenceTests
 
         // assert
         A.CallTo(() => fakeDifferenceService.GetDifference(fakeStock, _oldReport)).MustHaveHappened();
-
     }
 }

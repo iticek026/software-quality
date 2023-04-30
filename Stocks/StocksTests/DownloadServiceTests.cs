@@ -16,6 +16,5 @@ public class DownloadServiceTests
     public async Task DownloadService_NotDownloaded_ThrowsCustomException()
     {
         A.CallTo(() => _downloadService.DownloadFile("invalid_path")).Throws<InvalidTimeZoneException>();
-        
     }
 }

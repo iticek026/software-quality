@@ -16,7 +16,7 @@ public class DownloadService : IDownloadService
     /// </summary>
     /// <param name="settings">Settings.</param>
     /// <param name="client">HTTP client.</param>
-    public DownloadService(Settings settings, 
+    public DownloadService(Settings settings,
         HttpClient client)
     {
         _settings = settings;
@@ -33,7 +33,7 @@ public class DownloadService : IDownloadService
     {
         string? csv = null;
         var requestMessage = CreateGetRequestMessage(path);
-       
+
         HttpResponseMessage responseMessage = await _client.SendAsync(requestMessage);
         if (!responseMessage.IsSuccessStatusCode)
         {

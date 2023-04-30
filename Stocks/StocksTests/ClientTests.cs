@@ -4,7 +4,6 @@ namespace StocksTests;
 
 public class ClientTests
 {
-    
     [Test]
     public async Task Client_RunAsync_DownloadServiceThrowsException()
     {
@@ -14,7 +13,7 @@ public class ClientTests
             .RunAsync()
             .AssertException(ExceptionStrings.GetExceptionMessage(CustomException.InvalidDownload));
     }
-    
+
     [Test]
     public async Task Client_RunAsync_DownloadsEmptyFile()
     {
@@ -24,6 +23,7 @@ public class ClientTests
             .RunAsync()
             .AssertException(ExceptionStrings.GetExceptionMessage(CustomException.EmptyCsvFile));
     }
+
     [Test]
     public async Task Client_RunAsync_DateFileServiceThrowsException()
     {

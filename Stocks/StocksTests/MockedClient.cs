@@ -40,7 +40,7 @@ public class MockedClient
         _settings.FileExtension = ".csv";
         _settings.FileNameFormat = "dd_MM_yyyy";
         _settings.UserAgent = "StockService/1.0";
-        
+
         ConsoleOutput = new StringWriter();
         Console.SetOut(ConsoleOutput);
     }
@@ -48,12 +48,12 @@ public class MockedClient
     public MockedClient()
     {
         SetUp();
-        TestClient = new Client(_downloadService, 
-            _dateFileService, 
-            _parserService, 
-            _differenceService, 
+        TestClient = new Client(_downloadService,
+            _dateFileService,
+            _parserService,
+            _differenceService,
             _settings,
-            _outputService, 
+            _outputService,
             _exportService);
     }
 
@@ -68,89 +68,88 @@ public class MockedClient
         A.CallTo(() => _downloadService.DownloadFile(_settings.CsvUrl)).Throws<InvalidDownloadException>();
         return this;
     }
-    
+
     public MockedClient DownloadEmptyData()
     {
         A.CallTo(() => _downloadService.DownloadFile(_settings.CsvUrl)).Returns("");
         return this;
     }
-    
+
     public MockedClient CanSaveContent()
     {
         A.CallTo(() => _dateFileService.SaveContent(A<string>.Ignored, _settings.FileExtension)).DoesNothing();
         return this;
     }
+
     public MockedClient CanNotSaveContent()
     {
         A.CallTo(() => _dateFileService.SaveContent(A<string>.Ignored, _settings.FileExtension)).Throws<IOException>();
         return this;
     }
-    
+
     public MockedClient CanGetLastAvailableFilePath()
     {
         A.CallTo(() => _dateFileService.GetLastAvailableFilePath(_settings.SaveDirectory, _settings.FileExtension)).Returns("valid path");
         return this;
     }
-    
+
     public MockedClient CanNotGetLastAvailableFilePath()
     {
         A.CallTo(() => _dateFileService.GetLastAvailableFilePath(_settings.SaveDirectory, _settings.FileExtension)).Throws<CsvFilePathNotFoundException>();
         return this;
     }
-    
+
     public MockedClient CanNotParseData()
     {
         A.CallTo(() => _parserService.GetStocksAsync(A<string>.Ignored)).Throws<MissingFieldException>();
         return this;
     }
-    
+
     public MockedClient CanParseData()
     {
         var stocksList = new List<StockModel>();
-        var stockModel = new StockModel
-            { Cusip = "594918104", Ticker = "MSFT", Company = "Microsoft", Shares = 15, Weight = "15%" };
+        var stockModel = new StockModel { Cusip = "594918104", Ticker = "MSFT", Company = "Microsoft", Shares = 15, Weight = "15%" };
         stocksList.Add(stockModel);
 
         HoldingsDifferenceModel model = new HoldingsDifferenceModel();
         model.NewPositions = stocksList;
         model.IncreasedPositons = new List<StockDifferenceModel>();
         model.ReducedPositions = new List<StockDifferenceModel>();
-        
+
         A.CallTo(() => _parserService.GetStocksAsync(A<string>.Ignored)).Returns(stocksList);
         return this;
     }
-    
+
     public MockedClient GetLastAvailableFilePathThrowsException()
     {
         A.CallTo(() => _dateFileService.GetLastAvailableFilePath(_settings.SaveDirectory, _settings.FileExtension)).Throws<CsvFilePathNotFoundException>();
         return this;
     }
-    
-    public  MockedClient RunAsync()
+
+    public MockedClient RunAsync()
     {
         TestClient.Run();
         return this;
     }
-    
-    public  MockedClient CanGetDifference()
+
+    public MockedClient CanGetDifference()
     {
         var stocksList = new List<StockModel>();
-        var stockModel = new StockModel
-            { Cusip = "594918104", Ticker = "MSFT", Company = "Microsoft", Shares = 15, Weight = "15%" };
+        var stockModel = new StockModel { Cusip = "594918104", Ticker = "MSFT", Company = "Microsoft", Shares = 15, Weight = "15%" };
         stocksList.Add(stockModel);
-        
+
         HoldingsDifferenceModel model = new HoldingsDifferenceModel();
         model.NewPositions = stocksList;
         model.IncreasedPositons = new List<StockDifferenceModel>();
         model.ReducedPositions = new List<StockDifferenceModel>();
-        
+
         A.CallTo(() =>
                 _differenceService.GetDifference(A<IEnumerable<StockModel>>.Ignored,
                     A<IEnumerable<StockModel>>.Ignored))
             .Returns(model);
         return this;
     }
-    
+
     public void AssertException(string assertError)
     {
         Assert.That(assertError,
@@ -166,5 +165,4 @@ public class MockedClient
     {
         StringAssert.Contains(expected, GetConsoleOutput());
     }
-
 }
