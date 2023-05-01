@@ -38,7 +38,7 @@
                     CustomException.MissingFieldException,
                     "Unable to parse provided csv file. There is a missing field. Please check the file and try again."
                 },
-                { CustomException.UnknownException, "Unknown Exception occured." }
+                { CustomException.UnknownException, "Unknown Exception occurred." }
             };
             return ExceptionsDictionary.GetValueOrDefault(e);
         }
