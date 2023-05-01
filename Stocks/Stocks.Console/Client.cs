@@ -1,4 +1,4 @@
-﻿using Stocks.Services.Diff;
+using Stocks.Services.Diff;
 using Stocks.Services.Download;
 using Stocks.Services.Exceptions;
 using Stocks.Services.Export;
@@ -96,27 +96,22 @@ public class Client
         catch (CsvFilePathNotFoundException e)
         {
             System.Console.WriteLine(e.Message);
-            return;
         }
         catch (IOException)
         {
             System.Console.WriteLine(ExceptionStrings.GetExceptionMessage(CustomException.IoException));
-            return;
         }
         catch (InvalidDownloadException e)
         {
             System.Console.WriteLine(e.Message);
-            return;
         }
         catch (MissingFieldException)
         {
             System.Console.WriteLine(ExceptionStrings.GetExceptionMessage(CustomException.MissingFieldException));
-            return;
         }
         catch (Exception e)
         {
             System.Console.WriteLine(e.Message);
-            return;
         }
     }
 
