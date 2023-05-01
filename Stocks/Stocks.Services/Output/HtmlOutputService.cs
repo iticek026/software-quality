@@ -9,17 +9,6 @@ namespace Stocks.Services.Output
     /// </summary>
     public class HtmlOutputService : IOutputService
     {
-        private readonly Settings _settings;
-
-        /// <summary>
-        /// Creates a new instance of <see cref="HtmlOutputService"/>.
-        /// </summary>
-        /// <param name="settings">The settings of the application.</param>
-        public HtmlOutputService(Settings settings)
-        {
-            _settings = settings;
-        }
-
         /// <summary>
         /// Generates the output in HTML format.
         /// </summary>
