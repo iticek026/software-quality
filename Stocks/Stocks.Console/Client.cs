@@ -1,4 +1,4 @@
-using Stocks.Services.Diff;
+﻿using Stocks.Services.Diff;
 using Stocks.Services.Download;
 using Stocks.Services.Exceptions;
 using Stocks.Services.Export;
@@ -55,10 +55,9 @@ public class Client
     /// </summary>
     public async Task RunAsync()
     {
-        string? csv;
         try
         {
-            csv = await _downloadService.DownloadFile(_settings.CsvUrl);
+            string csv = await _downloadService.DownloadFile(_settings.CsvUrl);
 
             if (string.IsNullOrEmpty(csv))
             {
@@ -70,18 +69,10 @@ public class Client
 
             string pathToRecentFile = PathHelper.GetDateFilePath(DateTime.Today, _settings.FileNameFormat,
                 _settings.SaveDirectory, _settings.FileExtension);
-            string pathToOlderFile;
+            string pathToOlderFile = _dateFileService.GetLastAvailableFilePath(_settings.SaveDirectory, _settings.FileExtension);
 
-            pathToOlderFile =
-                _dateFileService.GetLastAvailableFilePath(_settings.SaveDirectory, _settings.FileExtension);
-
-
-            IEnumerable<StockModel> recentHoldings;
-            IEnumerable<StockModel> pastHoldings;
-
-            recentHoldings = await _parserService.GetStocksAsync(pathToRecentFile);
-            pastHoldings = await _parserService.GetStocksAsync(pathToOlderFile);
-
+            var recentHoldings = await _parserService.GetStocksAsync(pathToRecentFile);
+            var pastHoldings = await _parserService.GetStocksAsync(pathToOlderFile);
 
             var diffResult = _differenceService.GetDifference(recentHoldings, pastHoldings);
 
