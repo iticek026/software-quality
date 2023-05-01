@@ -29,9 +29,8 @@ public class DownloadService : IDownloadService
     /// <param name="path">The path to the file.</param>
     /// <returns>The file content.</returns>
     /// <exception cref="InvalidDownloadException">Thrown when the download fails.</exception>
-    public async Task<string?> DownloadFile(string path)
+    public async Task<string> DownloadFile(string path)
     {
-        string? csv = null;
         var requestMessage = CreateGetRequestMessage(path);
 
         HttpResponseMessage responseMessage = await _client.SendAsync(requestMessage);
@@ -40,9 +39,7 @@ public class DownloadService : IDownloadService
             throw new InvalidDownloadException(ExceptionStrings.GetExceptionMessage(CustomException.InvalidDownload));
         }
 
-        csv = await responseMessage.Content.ReadAsStringAsync();
-
-        return csv;
+        return await responseMessage.Content.ReadAsStringAsync();
     }
 
     /// <summary>

@@ -10,6 +10,6 @@
         /// </summary>
         /// <param name="path">The path to the file.</param>
         /// <returns>The file content.</returns>
-        public Task<string?> DownloadFile(string path);
+        public Task<string> DownloadFile(string path);
     }
 }
