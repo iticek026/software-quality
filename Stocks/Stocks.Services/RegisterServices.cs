@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Stocks.Services.Diff;
 using Stocks.Services.Download;
@@ -23,6 +24,7 @@ namespace Stocks.Services
             services.AddTransient<IParseService, CsvParseService>();
             services.AddTransient<IOutputService, HtmlOutputService>();
             services.AddTransient<IExportService, EmailExportService>();
+            services.AddTransient<ISmtpClient, SmtpClient>();
             services.AddSingleton<Settings>(f =>
             {
                 var configuration = f.GetRequiredService<IConfiguration>();

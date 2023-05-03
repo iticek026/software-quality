@@ -8,17 +8,30 @@ namespace Stocks.Services.Export
     /// <summary>
     /// Class <c>EmailExportService</c> defines the service that exports content via email.
     /// </summary>
-    public class EmailExportService : IExportService
+    public class EmailExportService : IExportService, IDisposable
     {
+        private readonly ISmtpClient _smtpClient;
         private readonly Settings _settings;
 
         /// <summary>
         /// Creates a new instance of <see cref="EmailExportService"/>.
         /// </summary>
         /// <param name="settings">Settings.</param>
-        public EmailExportService(Settings settings)
+        /// <param name="smtpClient">SMTP Client implementation</param>
+        public EmailExportService(ISmtpClient smtpClient,
+            Settings settings)
         {
+            _smtpClient = smtpClient;
             _settings = settings;
+        }
+
+        public void Dispose()
+        {
+            if (_smtpClient.IsConnected)
+            {
+                _smtpClient.Disconnect(true);
+            }
+            _smtpClient.Dispose();
         }
 
         /// <summary>
@@ -31,12 +44,10 @@ namespace Stocks.Services.Export
 
             message.Body = CreateBody(content);
 
-            using var client = new SmtpClient();
-
-            await client.ConnectAsync(_settings.Smtp.Host, _settings.Smtp.Port, SecureSocketOptions.SslOnConnect);
-            await client.AuthenticateAsync(_settings.Smtp.Username, _settings.Smtp.Password);
-            await client.SendAsync(message);
-            await client.DisconnectAsync(true);
+            await _smtpClient.ConnectAsync(_settings.Smtp.Host, _settings.Smtp.Port, SecureSocketOptions.SslOnConnect);
+            await _smtpClient.AuthenticateAsync(_settings.Smtp.Username, _settings.Smtp.Password);
+            await _smtpClient.SendAsync(message);
+            await _smtpClient.DisconnectAsync(true);
 
             return;
         }
