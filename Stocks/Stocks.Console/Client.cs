@@ -61,7 +61,7 @@ public class Client
 
             if (string.IsNullOrEmpty(csv))
             {
-                System.Console.WriteLine(ExceptionStrings.GetExceptionMessage(CustomException.EmptyCsvFile));
+                System.Console.Error.WriteLine(ExceptionStrings.GetExceptionMessage(CustomException.EmptyCsvFile));
                 return;
             }
 
@@ -86,23 +86,23 @@ public class Client
         }
         catch (CsvFilePathNotFoundException e)
         {
-            System.Console.WriteLine(e.Message);
+            System.Console.Error.WriteLine(e.Message);
         }
         catch (IOException)
         {
-            System.Console.WriteLine(ExceptionStrings.GetExceptionMessage(CustomException.IoException));
+            System.Console.Error.WriteLine(ExceptionStrings.GetExceptionMessage(CustomException.IoException));
         }
         catch (InvalidDownloadException e)
         {
-            System.Console.WriteLine(e.Message);
+            System.Console.Error.WriteLine(e.Message);
         }
         catch (MissingFieldException)
         {
-            System.Console.WriteLine(ExceptionStrings.GetExceptionMessage(CustomException.MissingFieldException));
+            System.Console.Error.WriteLine(ExceptionStrings.GetExceptionMessage(CustomException.MissingFieldException));
         }
         catch (Exception e)
         {
-            System.Console.WriteLine(e.Message);
+            System.Console.Error.WriteLine(e.Message);
         }
     }
 

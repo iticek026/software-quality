@@ -25,6 +25,36 @@ public class ClientTests
     }
 
     [Test]
+    public void Client_Run_ExportThrowsConnectionException()
+    {
+        var client = new MockedClient();
+        client
+            .CanDownloadData()
+            .CanSaveContent()
+            .CanGetLastAvailableFilePath()
+            .CanParseData()
+            .CanGetDifference()
+            .CanNotConnectToSMTP()
+            .RunAsync()
+            .AssertException(ExceptionStrings.GetExceptionMessage(CustomException.SmtpConnectionException));
+    }
+
+    [Test]
+    public void Client_Run_ExportThrowsAuthenticationException()
+    {
+        var client = new MockedClient();
+        client
+            .CanDownloadData()
+            .CanSaveContent()
+            .CanGetLastAvailableFilePath()
+            .CanParseData()
+            .CanGetDifference()
+            .CanNotAuthenticateSMTP()
+            .RunAsync()
+            .AssertException(ExceptionStrings.GetExceptionMessage(CustomException.SmtpAuthenticationException));
+    }
+
+    [Test]
     public async Task Client_RunAsync_DateFileServiceThrowsException()
     {
         var client = new MockedClient();
@@ -70,6 +100,7 @@ public class ClientTests
             .CanGetLastAvailableFilePath()
             .CanParseData()
             .CanGetDifference()
+            .CanExportData()
             .RunAsync()
             .AssertContainsStockInfo("Microsoft");
     }

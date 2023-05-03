@@ -10,7 +10,9 @@
         EmptyCsvFile,
         IoException,
         MissingFieldException,
-        UnknownException
+        UnknownException,
+        SmtpConnectionException,
+        SmtpAuthenticationException,
     }
 
     /// <summary>
@@ -38,7 +40,9 @@
                     CustomException.MissingFieldException,
                     "Unable to parse provided csv file. There is a missing field. Please check the file and try again."
                 },
-                { CustomException.UnknownException, "Unknown Exception occurred." }
+                { CustomException.UnknownException, "Unknown Exception occurred." },
+                { CustomException.SmtpConnectionException, "Could not connect to specified server." },
+                { CustomException.SmtpAuthenticationException, "Could not authenticate with specified credentials." }
             };
             return ExceptionsDictionary.GetValueOrDefault(e);
         }

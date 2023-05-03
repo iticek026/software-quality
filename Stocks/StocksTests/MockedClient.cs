@@ -16,6 +16,7 @@ public class MockedClient
 {
     public Client TestClient { get; }
     private StringWriter? ConsoleOutput { get; set; }
+    private StringWriter? ConsoleError { get; set; }
     private IDownloadService _downloadService;
     private IFileService _dateFileService;
     private IParseService _parserService;
@@ -42,7 +43,9 @@ public class MockedClient
         _settings.UserAgent = "StockService/1.0";
 
         ConsoleOutput = new StringWriter();
+        ConsoleError = new StringWriter();
         Console.SetOut(ConsoleOutput);
+        Console.SetError(ConsoleError);
     }
 
     public MockedClient()
@@ -150,15 +153,38 @@ public class MockedClient
         return this;
     }
 
+    public MockedClient CanNotConnectToSMTP()
+    {
+        A.CallTo(() => _exportService.Export(A<string>.Ignored)).Throws<SmtpConnectionException>();
+        return this;
+    }
+
+    public MockedClient CanNotAuthenticateSMTP()
+    {
+        A.CallTo(() => _exportService.Export(A<string>.Ignored)).Throws<SmtpAuthenticationException>();
+        return this;
+    }
+
+    public MockedClient CanExportData()
+    {
+        A.CallTo(() => _exportService.Export(A<string>.Ignored)).Returns(Task.CompletedTask);
+        return this;
+    }
+
     public void AssertException(string assertError)
     {
-        Assert.That(assertError,
-            Is.EqualTo(GetConsoleOutput()));
+        Assert.That(GetConsoleError(),
+            Is.EqualTo(assertError));
     }
 
     public string GetConsoleOutput()
     {
         return ConsoleOutput.ToString().Trim();
+    }
+
+    public string GetConsoleError()
+    {
+        return ConsoleError.ToString().Trim();
     }
 
     public void AssertContainsStockInfo(string expected)

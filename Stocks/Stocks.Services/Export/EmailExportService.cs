@@ -1,6 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
+using Stocks.Services.Exceptions;
 using Stocks.Services.Models.Configuration;
 
 namespace Stocks.Services.Export
@@ -38,14 +39,33 @@ namespace Stocks.Services.Export
         /// Sends the content via email asynchronously.
         /// </summary>
         /// <param name="content">The content to be sent.</param>
+        /// <exception cref="SmtpConnectionException"></exception>
+        /// <exception cref="SmtpAuthenticationException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task Export(string content)
         {
             var message = CreateBaseMailMessage();
 
             message.Body = CreateBody(content);
 
-            await _smtpClient.ConnectAsync(_settings.Smtp.Host, _settings.Smtp.Port, SecureSocketOptions.SslOnConnect);
-            await _smtpClient.AuthenticateAsync(_settings.Smtp.Username, _settings.Smtp.Password);
+            try
+            {
+                await _smtpClient.ConnectAsync(_settings.Smtp.Host, _settings.Smtp.Port, SecureSocketOptions.SslOnConnect);
+            }
+            catch (Exception e)
+            {
+                throw new SmtpConnectionException(e);
+            }
+
+            try
+            {
+                await _smtpClient.AuthenticateAsync(_settings.Smtp.Username, _settings.Smtp.Password);
+            }
+            catch (Exception e)
+            {
+                throw new SmtpAuthenticationException(e);
+            }
             await _smtpClient.SendAsync(message);
             await _smtpClient.DisconnectAsync(true);
 
@@ -56,6 +76,8 @@ namespace Stocks.Services.Export
         /// Creates the mail message with the base configuration from the settings.
         /// </summary>
         /// <returns><c>MimeMessage</c> object.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         private MimeMessage CreateBaseMailMessage()
         {
             var mailMessage = new MimeMessage();
